@@ -1,0 +1,19 @@
+{
+  "name": "desktop-messenger",
+  "version": "1.0.0",
+  "description": "A minimal Facebook Messenger application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/binnjuhor/desktop-messenger",
+  "keywords": [
+    "messenger",
+    "desktop"
+  ],
+  "author": "Binjuhor",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^6.0.7"
+  }
+}
