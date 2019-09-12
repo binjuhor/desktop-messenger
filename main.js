@@ -9,7 +9,6 @@ function createWindow () {
     height: 890,
     resizable: false,
     title:"Messenger",
-    icon:"./images/facebook-messenger.png",
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
