@@ -1,6 +1,6 @@
 # Facebook Desktop Messenger
 
-**An app using Eletron quick start project, you can fork and build your way.**
+**An app using Electron quick start project, you can fork and build your way.**
 
 This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start) within the Electron documentation.
 
