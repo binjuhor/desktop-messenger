@@ -14,7 +14,7 @@
   "author": "Binjuhor",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^35.7.5",
+    "electron": "^42.11.16",
     "electron-builder": "^26.6.0"
   },
   "build": {
