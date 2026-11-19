@@ -71,7 +71,7 @@
         "deb"
       ],
       "category": "Network;InstantMessaging",
-      "maintainer": "Binjuhor",
+      "maintainer": "Binjuhor <hi@binjuhor.com>",
       "executableName": "desktop-messenger"
     },
     "publish": [
