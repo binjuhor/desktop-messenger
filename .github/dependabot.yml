@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # Electron ships Chromium security fixes; keep it current.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      electron:
+        patterns: ['electron', 'electron-builder']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

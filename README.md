@@ -1,51 +1,52 @@
-# Facebook Desktop Messenger
+# Desktop Messenger
 
-**An app using Electron quick start project, you can fork and build your way.**
+A small, hardened Electron wrapper that runs [messenger.com](https://www.messenger.com) as a desktop app on macOS, Windows and Linux.
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start) within the Electron documentation.
+## Features
 
-**Use this app along with the [Electron API Demos](https://electronjs.org/#get-started) app for API code examples to help you get started.**
+- Resizable window that remembers its size, position and maximized state
+- Unread count on the dock / taskbar badge (macOS, Linux Unity), dock bounce or taskbar flash on new messages
+- macOS: closing the window keeps the app running in the dock (Cmd+Q quits)
+- Windows: closing the window minimizes to the tray; Linux shows a tray icon with Show/Quit
+- Screen sharing in calls via a native picker (screens and windows)
+- Native application menu (edit shortcuts, zoom, back/forward, fullscreen) and right-click menu (spelling suggestions, copy/paste, copy link, save image)
+- Desktop notifications, camera and microphone for calls
+- External links open in your default browser
+- Single instance: launching again focuses the existing window
 
-A basic Electron application needs just these files:
+## Security model
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
+- Renderer is sandboxed with context isolation, no Node.js integration, no preload and no `<webview>`
+- Top-level navigation is restricted to `https://` on `messenger.com`, `facebook.com` and `meta.com`; anything else opens in the system browser (only `http`, `https`, `mailto` are ever passed to the OS)
+- Permissions are allow-listed (notifications, camera/mic, fullscreen, clipboard write) and granted only to trusted origins; device pickers (USB/HID/serial) are always denied
+- DevTools are disabled in packaged builds
+- Packaged builds flip Electron fuses: no `ELECTRON_RUN_AS_NODE`, no `NODE_OPTIONS`/`--inspect`, encrypted cookie store, asar integrity validation, load app only from asar
+- Profile data lives in its own folder (`Desktop Messenger`), separate from Meta's official Messenger app
 
-You can learn more about each of these components within the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start).
+## Develop
 
-## To Use
-
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+Requires Node.js 22+ and npm.
 
 ```bash
-# Clone this repository
 git clone https://github.com/binjuhor/desktop-messenger
-# Go into the repository
 cd desktop-messenger
-# Install dependencies
-yarn
-# Run the app
-yarn start
+npm install
+npm start        # run the app
+npm test         # URL policy unit tests
 ```
 
-## To build
+## Build
+
 ```bash
-#Build an desktop app
-yarn dist
+npm run pack     # unpacked app in dist/ (quick check)
+npm run dist     # installers: dmg/zip (macOS), nsis (Windows), AppImage/deb (Linux)
 ```
 
+## Release
 
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+Pushing a `v*` tag (e.g. `git tag v0.2.0 && git push --tags`) runs `.github/workflows/release.yml`, which builds installers on macOS, Windows and Linux and attaches them to a **draft** GitHub release. Review and publish the draft manually. Every PR runs tests and a production dependency audit (`ci.yml`).
 
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [electronjs.org/community#boilerplates](https://electronjs.org/community#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
+macOS builds use the hardened runtime with camera/microphone entitlements (`build/entitlements.mac.plist`). Unsigned builds work locally; for distribution add the repo secrets `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID` and the release workflow signs and notarizes automatically (see [electron.build code signing](https://www.electron.build/code-signing)).
 
 ## License
 
